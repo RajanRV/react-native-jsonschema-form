@@ -1,26 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {View } from 'react-native'
+import {Pressable, Text, View } from 'react-native'
 import { dataURItoBlob, shouldRender, setState } from "../../utils";
+import * as DocumentPicker from 'expo-document-picker';
 
 function addNameToDataURL(dataURL, name) {
   return dataURL.replace(";base64", `;name=${name};base64`);
 }
 
 function processFile(file) {
-  const { name, size, type } = file;
   return new Promise((resolve, reject) => {
-    const reader = new window.FileReader();
-    reader.onerror = reject;
-    reader.onload = event => {
-      resolve({
-        dataURL: addNameToDataURL(event.target.result, name),
-        name,
-        size,
-        type,
-      });
-    };
-    reader.readAsDataURL(file);
+    resolve(file)
   });
 }
 
@@ -34,16 +24,18 @@ function FilesInfo(props) {
     return null;
   }
   return (
-    <ul className="file-info">
-      {filesInfo.map((fileInfo, key) => {
-        const { name, size, type } = fileInfo;
+    // <ul className="file-info">
+      filesInfo.map((fileInfo, key) => {
+        const { name, size, mimeType } = fileInfo;
         return (
-          <li key={key}>
-            <strong>{name}</strong> ({type}, {size} bytes)
-          </li>
+          name && (
+            <Text key={key}>
+              {name} ({mimeType}, {size} bytes)
+            </Text>
+          )
         );
-      })}
-    </ul>
+      })
+    // </ul>
   );
 }
 
@@ -64,19 +56,23 @@ class FileWidget extends Component {
   constructor(props) {
     super(props);
     const { value } = props;
-    const values = Array.isArray(value) ? value : [value];
-    this.state = { values, filesInfo: extractFileInfo(values) };
+    const values = !value ? [] : Array.isArray(value) ? value : [value];
+    this.state = { values, filesInfo: values };
+
+    this.onChange.bind(this)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
   }
 
-  onChange = event => {
-    const { multiple, onChange } = this.props;
-    processFiles(event.target.files).then(filesInfo => {
+  onChange = async () => {
+    const { multiple, onChange, type, copyToCacheDirectory } = this.props;
+
+    const resp = await DocumentPicker.getDocumentAsync({ type: (type || '*/*'), multiple, copyToCacheDirectory: (copyToCacheDirectory || false) })
+    processFiles(resp?.assets || []).then(filesInfo => {
       const state = {
-        values: filesInfo.map(fileInfo => fileInfo.dataURL),
+        values: filesInfo.map(fileInfo => fileInfo.uri),
         filesInfo,
       };
       setState(this, state, () => {
@@ -92,21 +88,24 @@ class FileWidget extends Component {
   render() {
     const { multiple, id, readonly, disabled, autofocus } = this.props;
     const { filesInfo } = this.state;
+    const { buttonStyles, buttonText, buttonTextStyles, FilesInfoComponent } = this.props.options
     return (
       <View>
         <View>
-          <input
-            ref={ref => (this.inputRef = ref)}
-            id={id}
-            type="file"
+          <Pressable 
+            ref={ref => this.inputRef = ref}
+            onPress={this.onChange}
             disabled={readonly || disabled}
-            onChange={this.onChange}
-            defaultValue=""
-            autoFocus={autofocus}
-            multiple={multiple}
-          />
+            style={{ ...(buttonStyles || {}) }}
+          >
+            <Text style={{ ...(buttonTextStyles || {}) }}>{buttonText || "Browse"}</Text>
+          </Pressable>
         </View>
-        <FilesInfo filesInfo={filesInfo} />
+        {FilesInfoComponent ? (
+          <FilesInfoComponent filesInfo={filesInfo} />
+        ): (
+          <FilesInfo filesInfo={filesInfo} />
+        )}
       </View>
     );
   }
