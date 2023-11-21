@@ -1,12 +1,12 @@
 import React from "react";
-import { Text, StyleSheet, View, TouchableOpacity, I18nManager,Image } from 'react-native'
-import {default as DropIcon} from 'react-native-vector-icons/FontAwesome';
+import { Text, StyleSheet, View, TouchableOpacity, I18nManager, Image } from 'react-native'
+import { default as DropIcon } from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment'
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { Calendar } from 'react-native-calendars'
 import ReactModal from 'react-native-modal';
 import _ from 'lodash'
-import {getStyle} from '../../utils'
+import { getStyle } from '../../utils'
 
 const today = moment().startOf('day')
 
@@ -14,23 +14,44 @@ class DateWidget extends React.Component {
   constructor(props) {
     super(props)
 
-    const {dates,startDay,endDate} = this.getValidDates(props)
+    const { dates } = this.getValidDates(props)
+    const { schema } = props
+
+    var startDay = moment('1700-01-01', 'YYYY-MM-DD')
+    var endDate = moment('9999-01-01', 'YYYY-MM-DD')
+
+    if (schema.minimum) {
+      if (schema.minimum === 'today') {
+        startDay = moment()
+      } else {
+        startDay = moment(schema.minimum)
+      }
+    }
+
+    if (schema.maximum) {
+      if (schema.maximum === 'today') {
+        endDate = moment()
+      } else {
+        endDate = moment(schema.maximum)
+      }
+    }
+
     const startDayFormat = startDay.format('YYYY-MM-DD')
     // props.onChange(startDayFormat)
     this.state = {
       calander: false,
       calanderSelection: null,
-      dateSelected:'',
-      startDay:startDayFormat,
-      endDate:endDate.format('YYYY-MM-DD'),
-      possibleDates:dates,
-      theme : {
+      dateSelected: '',
+      startDay: startDayFormat,
+      endDate: endDate.format('YYYY-MM-DD'),
+      possibleDates: dates,
+      theme: {
         textSectionTitleColor: this.widgetStyle('textSectionTitleColor').color || '#6DA1B7',
         selectedDayBackgroundColor: this.widgetStyle('selectedDayBackgroundColor').color || '#6DA1B7',
         selectedDayTextColor: this.widgetStyle('selectedDayTextColor').color || '#ffffff',
         todayTextColor: this.widgetStyle('todayTextColor').color || '#6DA1B7',
-        arrowColor:this.widgetStyle('arrowColor').color || '#6DA1B7',
-        monthTextColor:this.widgetStyle('monthTextColor').color || '#6DA1B7',
+        arrowColor: this.widgetStyle('arrowColor').color || '#6DA1B7',
+        monthTextColor: this.widgetStyle('monthTextColor').color || '#6DA1B7',
         textDayFontFamily: this.widgetStyle('dateFonts').fontFamily || null,
         textMonthFontFamily: this.widgetStyle('dateFonts').fontFamily || null,
         textDayHeaderFontFamily: this.widgetStyle('dateFonts').fontFamily || null,
@@ -42,47 +63,48 @@ class DateWidget extends React.Component {
     }
   }
 
-  widgetStyle=(styleName)=>getStyle(this.props.styleSheet,styleName,"DateWidget")
+  widgetStyle = (styleName) => getStyle(this.props.styleSheet, styleName, "DateWidget")
 
 
-  getValidDates(props){
+  getValidDates(props) {
     let dates = {}
     let possibleDates = {}
-    let startDay = today
-    let endDate = today
-   
-    props.options.enumOptions.forEach((options) => {
-     
-      let date = moment(options.value).startOf('day')
+    let startDay = today //moment('1700-01-01', 'YYYY-MM-DD').startOf('day')
+    let endDate = today //moment('4000-01-01', 'YYYY-MM-DD').startOf('day')
+    // if (props.options.enumOptions) {
+    //   props.options.enumOptions.forEach((options) => {
 
-      if(date >= today && (startDay === null || date <= startDay)){
-        startDay = date
-      }
-      if((endDate>today) && endDate === null || date >= endDate){
-        endDate = date
-      }
-      if(date < today){
-        possibleDates[options.value] = {disabled: true, disableTouchEvent: true}
-      }else{
-        possibleDates[options.value] = {disabled: false, disableTouchEvent: false}
-      }
-    })
+    //     let date = moment(options.value).startOf('day')
 
-    let daysBetweenDates = moment.duration(endDate.diff(startDay)).asDays()
+    //     if (date >= today && (startDay === null || date <= startDay)) {
+    //       startDay = date
+    //     }
+    //     if ((endDate > today) && endDate === null || date >= endDate) {
+    //       endDate = date
+    //     }
+    //     if (date < today) {
+    //       possibleDates[options.value] = { disabled: true, disableTouchEvent: true }
+    //     } else {
+    //       possibleDates[options.value] = { disabled: false, disableTouchEvent: false }
+    //     }
+    //   })
+    // }
 
-     for(let i = 0; i <= daysBetweenDates; i++){
-      let formatDate = {[moment().add(i,'d').format('YYYY-MM-DD')]:{disabled: true, disableTouchEvent: true}}
-      dates = Object.assign(formatDate, dates)
-      }
+    // let daysBetweenDates = moment.duration(endDate.diff(startDay)).asDays()
 
-      _.forIn(possibleDates,(value,key) => {
-        dates[key] = value
-      });
+    // for (let i = 0; i <= daysBetweenDates; i++) {
+    //   let formatDate = { [moment().add(i, 'd').format('YYYY-MM-DD')]: { disabled: true, disableTouchEvent: true } }
+    //   dates = Object.assign(formatDate, dates)
+    // }
 
-    
-    const intial ={dates,startDay,endDate}
+    // _.forIn(possibleDates, (value, key) => {
+    //   dates[key] = value
+    // });
 
-   return intial
+
+    const intial = { dates, startDay, endDate }
+
+    return intial
   }
 
   toggleCalendar() {
@@ -92,21 +114,27 @@ class DateWidget extends React.Component {
   }
 
   onPressDay(date) {
-    let myDates = _.cloneDeep(this.state.possibleDates) 
-    if(this.state.calanderSelection){
+    let myDates = _.cloneDeep(this.state.possibleDates)
+    if (this.state.calanderSelection) {
+      if (!myDates[this.state.calanderSelection]) {
+        myDates[this.state.calanderSelection] = {}
+      }
       myDates[this.state.calanderSelection].selected = false
+    }
+    if (!myDates[date.dateString]) {
+      myDates[date.dateString] = {}
     }
     myDates[date.dateString].selected = true
     this.setState({
-      possibleDates:myDates,
-      calanderSelection:date.dateString
+      possibleDates: myDates,
+      calanderSelection: date.dateString
     });
   }
 
   getDate() {
     const dateUi = moment(this.state.calanderSelection).format('dddd, YYYY-MM-DD')
     const dateSchema = moment(this.state.calanderSelection).format('YYYY-MM-DD').toString()
-    this.setState({dateSelected: dateUi});
+    this.setState({ dateSelected: dateUi });
     this.toggleCalendar()
     this.props.onChange(dateSchema)
   }
@@ -133,32 +161,34 @@ class DateWidget extends React.Component {
 
   renderWidgetButton() {
     return (
-      <TouchableOpacity style={[styles.content,this.widgetStyle('content')]} onPress={() => this.toggleCalendar()}>
-      {this.state.dateSelected ? 
-        <Text style={[styles.dropText,this.widgetStyle('dropText')]} >{this.state.dateSelected}</Text> :
-        <Text style={[styles.dropText,this.widgetStyle('placeholderdropText')]} >{this.props.schema.placeHolder}</Text>
-      }
-      <Image
-      source={require('../../images/dark.png')}
-    />
+      <TouchableOpacity style={[styles.content, this.widgetStyle('content')]} onPress={() => this.toggleCalendar()}>
+        {this.state.dateSelected ?
+          <Text style={[styles.dropText, this.widgetStyle('dropText')]} >{this.state.dateSelected}</Text> :
+          <Text style={[styles.dropText, this.widgetStyle('placeholderdropText')]} >{this.props.schema.placeHolder}</Text>
+        }
+        <Image
+          source={require('../../images/dark.png')}
+        />
       </TouchableOpacity>
     )
   }
 
   renderCalander() {
+    console.log(this.state, ' <=== I am state on each render...')
+    this.props.schema
     return (
-      <View style={[styles.container,this.widgetStyle('container')]} >
+      <View style={[styles.container, this.widgetStyle('container')]} >
         <Calendar
-        theme={this.state.theme}
-        onDayPress={(date) => this.onPressDay(date)}
-        minDate={this.state.startDay}
-        maxDate={this.state.endDate}
-        markedDates={{...this.state.possibleDates}}
-        renderArrow={direction => this.renderArrow(direction)}
-        hideExtraDays={true}
-      />
+          theme={this.state.theme}
+          onDayPress={(date) => this.onPressDay(date)}
+          minDate={this.state.startDay}
+          maxDate={this.state.endDate}
+          markedDates={{ ...this.state.possibleDates }}
+          renderArrow={direction => this.renderArrow(direction)}
+          hideExtraDays={true}
+        />
         {this.renderCalanderButton()}
-    </View>
+      </View>
     )
   }
 
@@ -166,7 +196,7 @@ class DateWidget extends React.Component {
   renderCalanderButton() {
     return (
       <TouchableOpacity onPress={() => this.getDate()} style={styles.button} >
-        <Text style={[styles.buttonText,this.widgetStyle('buttonText')]}>{this.props.schema.ChooseButtonText}</Text>
+        <Text style={[styles.buttonText, this.widgetStyle('buttonText')]}>{this.props.schema.ChooseButtonText || "Select"}</Text>
       </TouchableOpacity>
     )
   }
