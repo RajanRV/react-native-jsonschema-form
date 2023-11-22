@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {TextInput,StyleSheet,View,I18nManager,Platform} from 'react-native'
-import {getStyle} from '../../utils'
+import { TextInput, StyleSheet, View, I18nManager, Platform } from 'react-native'
+import { getStyle } from '../../utils'
 
 function TextareaWidget(props) {
   const {
@@ -22,24 +22,24 @@ function TextareaWidget(props) {
     return onChange(text || options.emptyValue);
   };
   return (
-    <View style={[styles.textAreaContainer,getStyle(styleSheet,'textAreaContainer','TextareaWidget'),Platform.OS === 'ios' ? {alignItems:"flex-start"} : {}]} >
+    <View style={[styles.textAreaContainer, getStyle(styleSheet, 'textAreaContainer', 'TextareaWidget'), Platform.OS === 'ios' ? { alignItems: "flex-start" } : {}]} >
       <TextInput
-      id={id}
-      required={required}
-      disabled={disabled}
-      readOnly={readonly}
-      rows={options.rows}
-      // onBlur={onBlur && (event => onBlur(id, event.target.value))}
-      // onFocus={onFocus && (event => onFocus(id, event.target.value))}
-      onChangeText={(text) => _onChange(text)}
-      numberOfLines={10}
-      multiline={true}
-      placeholder={placeholder || "Type something..."}
-      placeholderTextColor='lightgray'
-      style={[styles.textArea,getStyle(styleSheet,'textArea','TextareaWidget')]}
-      underlineColorAndroid="transparent"
-    />
-  </View>
+        id={id}
+        required={required}
+        disabled={disabled}
+        readOnly={readonly}
+        rows={options.rows}
+        // onBlur={onBlur && (event => onBlur(id, event.target.value))}
+        // onFocus={onFocus && (event => onFocus(id, event.target.value))}
+        onChangeText={(text) => _onChange(text)}
+        numberOfLines={10}
+        multiline={true}
+        placeholder={placeholder || "Type something..."}
+        placeholderTextColor='lightgray'
+        style={[styles.textArea, getStyle(styleSheet, 'textArea', 'TextareaWidget')]}
+        underlineColorAndroid="transparent"
+      />
+    </View>
   );
 }
 const styles = StyleSheet.create({

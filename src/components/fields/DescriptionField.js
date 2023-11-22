@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text,StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 function DescriptionField(props) {
   const { id, description } = props;
   if (!description) {
@@ -22,11 +22,11 @@ function DescriptionField(props) {
   }
 }
 const styles = StyleSheet.create({
-  container:{
-    marginTop:10,
-    marginBottom:10,
+  container: {
+    marginTop: 10,
+    marginBottom: 10,
   },
-  text:{
+  text: {
   }
 })
 
