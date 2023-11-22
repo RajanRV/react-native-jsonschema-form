@@ -1,6 +1,8 @@
 import React from "react";
 import validateFormData from "./validate";
 import fill from "core-js/library/fn/array/fill";
+import widgets from "./components/widgets";
+import fields from "./components/fields";
 
 export const ADDITIONAL_PROPERTY_FLAG = "__additional_property";
 
@@ -10,7 +12,7 @@ const widgetMap = {
     radio: "RadioWidget",
     select: "SelectWidget",
     hidden: "HiddenWidget",
-    vini:"ViniButton"
+    vini: "ViniButton"
   },
   string: {
     text: "TextWidget",
@@ -32,6 +34,7 @@ const widgetMap = {
     "alt-datetime": "AltDateTimeWidget",
     color: "ColorWidget",
     file: "FileWidget",
+    UploadFilesWithAttachmentsWidget: "FileWidget"
   },
   number: {
     text: "TextWidget",
@@ -53,13 +56,14 @@ const widgetMap = {
     select: "SelectWidget",
     checkboxes: "CheckboxesWidget",
     files: "FileWidget",
+    UploadFilesWithAttachmentsWidget: "FileWidget"
   },
 };
 
 export function getDefaultRegistry() {
   return {
-    fields: require("./components/fields").default,
-    widgets: require("./components/widgets").default,
+    fields: fields,
+    widgets: widgets,
     definitions: {},
     formContext: {},
   };
@@ -829,9 +833,9 @@ export function rangeSpec(schema) {
 
 
 
-export function getStyle(incomingStyle,styleName,widgetName){
-  if(incomingStyle && incomingStyle[widgetName] && incomingStyle[widgetName][styleName] )
+export function getStyle(incomingStyle, styleName, widgetName) {
+  if (incomingStyle && incomingStyle[widgetName] && incomingStyle[widgetName][styleName])
     return incomingStyle[widgetName][styleName]
   else
-  return {}
+    return {}
 }

@@ -1,26 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { dataURItoBlob, shouldRender, setState } from "../../utils";
+import * as DocumentPicker from 'expo-document-picker';
+import { Ionicons } from "@expo/vector-icons";
+
+const CALC_WIDTH = (Dimensions.get('screen').width / 3) - 36
 
 function addNameToDataURL(dataURL, name) {
   return dataURL.replace(";base64", `;name=${name};base64`);
 }
 
 function processFile(file) {
-  const { name, size, type } = file;
   return new Promise((resolve, reject) => {
-    const reader = new window.FileReader();
-    reader.onerror = reject;
-    reader.onload = event => {
-      resolve({
-        dataURL: addNameToDataURL(event.target.result, name),
-        name,
-        size,
-        type,
-      });
-    };
-    reader.readAsDataURL(file);
+    resolve(file)
   });
 }
 
@@ -34,16 +27,40 @@ function FilesInfo(props) {
     return null;
   }
   return (
-    <ul className="file-info">
+    // <ul className="file-info">
+    <View style={{ ...styles.imagesContainer, ...styles.rounImageContainer }}>
       {filesInfo.map((fileInfo, key) => {
-        const { name, size, type } = fileInfo;
+        const { name, size, mimeType } = fileInfo;
+
+        return name && (
+          <View style={styles.imageView} key={key}>
+            <View style={styles.imageStyles}>
+              <Ionicons name='file-tray-outline' size={30} color={colors.black} />
+              <Text key={key}>
+                {name}
+                {/* ({mimeType}, {size} bytes) */}
+              </Text>
+            </View>
+            {/* <Image source={{ uri: image.uri }} style={styles.imageStyles} /> */}
+            <TouchableOpacity
+              style={{ backgroundColor: colors.redBorder, padding: 5, borderRadius: 8, position: 'absolute', left: 6, top: 6 }}
+              onPress={() => props.deleteFile(key)}
+            >
+              <Ionicons name='close' size={20} color={colors.black} />
+            </TouchableOpacity>
+          </View>
+        )
+
         return (
-          <li key={key}>
-            <strong>{name}</strong> ({type}, {size} bytes)
-          </li>
+          name && (
+            <Text key={key}>
+              {name} ({mimeType}, {size} bytes)
+            </Text>
+          )
         );
       })}
-    </ul>
+    </View>
+    // </ul>
   );
 }
 
@@ -64,19 +81,28 @@ class FileWidget extends Component {
   constructor(props) {
     super(props);
     const { value } = props;
-    const values = Array.isArray(value) ? value : [value];
-    this.state = { values, filesInfo: extractFileInfo(values) };
+    const values = !value ? [] : Array.isArray(value) ? value : [value];
+    this.state = { values, filesInfo: values };
+
+    this.onChange.bind(this)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return shouldRender(this, nextProps, nextState);
   }
 
-  onChange = event => {
+  onChange = async () => {
+    const { multiple, type, copyToCacheDirectory } = this.props;
+
+    const resp = await DocumentPicker.getDocumentAsync({ type: (type || '*/*'), multiple, copyToCacheDirectory: (copyToCacheDirectory || false) })
+    this.handleFilePickerResp(resp)
+  };
+
+  handleFilePickerResp = (resp) => {
     const { multiple, onChange } = this.props;
-    processFiles(event.target.files).then(filesInfo => {
+    processFiles(resp?.assets || []).then(filesInfo => {
       const state = {
-        values: filesInfo.map(fileInfo => fileInfo.dataURL),
+        values: filesInfo.map(fileInfo => fileInfo.uri),
         filesInfo,
       };
       setState(this, state, () => {
@@ -87,26 +113,53 @@ class FileWidget extends Component {
         }
       });
     });
-  };
+  }
+
+  deleteImage = (index) => {
+    const filesInfo = this.state.filesInfo.filter((item, exindex) => exindex != index)
+    this.handleFilePickerResp({ assets: filesInfo })
+  }
 
   render() {
     const { multiple, id, readonly, disabled, autofocus } = this.props;
     const { filesInfo } = this.state;
+    const { buttonStyles, buttonText, buttonTextStyles, FilesInfoComponent } = this.props.options
     return (
       <View>
         <View>
-          <input
-            ref={ref => (this.inputRef = ref)}
-            id={id}
-            type="file"
+          <Pressable
+            ref={ref => this.inputRef = ref}
+            onPress={this.onChange}
             disabled={readonly || disabled}
-            onChange={this.onChange}
-            defaultValue=""
-            autoFocus={autofocus}
-            multiple={multiple}
-          />
+            style={{
+              ...({
+                marginTop: 10,
+                "alignItems": "center",
+                "justifyContent": "center",
+                "paddingVertical": 12,
+                "paddingHorizontal": 32,
+                "borderRadius": 4,
+                "elevation": 3,
+                "backgroundColor": "rgb(247, 144, 35)"
+              }), ...(buttonStyles || {})
+            }}
+          >
+            <Text style={{
+              ...({
+                "fontSize": 16,
+                "lineHeight": 21,
+                "fontWeight": "bold",
+                "letterSpacing": 0.25,
+                "color": "white"
+              }), ...(buttonTextStyles || {})
+            }}>{buttonText || "Browse"}</Text>
+          </Pressable>
         </View>
-        <FilesInfo filesInfo={filesInfo} />
+        {FilesInfoComponent ? (
+          <FilesInfoComponent filesInfo={filesInfo} />
+        ) : (
+          <FilesInfo filesInfo={filesInfo} deleteFile={this.deleteImage} />
+        )}
       </View>
     );
   }
@@ -128,3 +181,70 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export default FileWidget;
+
+const colors = {
+  primary: '#2B9348',
+  primaryTransparent: '#2B934844',
+  black: '#363537',
+  gray: '#79787A',
+  white: '#F9F9F9',
+  red: '#EF2D56',
+  whitebg: '#E8F7E1',
+  greenGoogle: '#173D07',
+  grayBorders: '#BCBCBC',
+  screenBg: '#f2f2f2',
+  darkBlack: '#111111',
+  darkGray: '#EFEFF0',
+  lightGray: '#585758',
+  borderGray: '#DEE6DB',
+  orange: '#FF8F00',
+  borderColor: '#EAEAEB',
+  properBlack: '#000000',
+  properWhite: '#ffffff',
+  placeholder: '#D7D7D7',
+  ligtGreen: '#F3FAF0',
+  cardText: '#555555',
+  lightRed: '#FAEEEB',
+  redBorder: '#FFC9B9',
+  lightText: '#585758',
+  lightGreen: '#EBFAEF',
+  greenBorder: '#D5E9DA',
+  // orange: '#ED7D3A',
+}
+
+const styles = StyleSheet.create({
+  rounImageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginStart: -8,
+    justifyContent: 'space-between'
+  },
+
+  imageStyles: {
+    width: CALC_WIDTH,
+    height: CALC_WIDTH,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  imageView: {
+    marginLeft: 8,
+    borderColor: 'red',
+    marginTop: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    backgroundColor: colors.darkGray,
+    borderColor: colors.grayBorders,
+    width: CALC_WIDTH,
+    height: CALC_WIDTH,
+    borderRadius: 8
+  },
+  imagesContainer: {
+    marginTop: 8,
+    marginBottom: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  }
+});
