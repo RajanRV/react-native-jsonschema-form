@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {View } from 'react-native'
+import { View } from 'react-native'
 
 function RadioWidget(props) {
   const {
@@ -19,7 +19,7 @@ function RadioWidget(props) {
   // this is a temporary fix for radio button rendering bug in React, facebook/react#7630.
   return (
     <View className="field-radio-group">
-     {enumOptions.map((option, i) => {
+      {enumOptions.map((option, i) => {
         const checked = option.value === value;
         const itemDisabled =
           enumDisabled && enumDisabled.indexOf(option.value) != -1;

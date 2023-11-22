@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {TextInput,StyleSheet,I18nManager} from 'react-native'
+import { TextInput, StyleSheet, I18nManager } from 'react-native'
 
 function BaseInput(props) {
   // Note: since React 15.2.0 we can't forward unknown element attributes, so we
@@ -25,12 +25,12 @@ function BaseInput(props) {
   } = props;
 
   inputProps.type = options.inputType || inputProps.type || "text";
-  const _onChange = ( value) => {
+  const _onChange = (value) => {
     return props.onChange(value === "" ? options.emptyValue : value);
   };
   return (
     <TextInput
-      style={[styles.input,I18nManager.isRTL ? {textAlign:'right'} : {}]}
+      style={[styles.input, I18nManager.isRTL ? { textAlign: 'right' } : {}]}
       readOnly={readonly}
       disabled={disabled}
       autoFocus={autofocus}
@@ -45,7 +45,7 @@ function BaseInput(props) {
 
 const styles = StyleSheet.create({
   input: {
-    padding:10,
+    padding: 10,
     flexDirection: 'row',
     backgroundColor: "rgba(255,255,255,0.9)",
   }

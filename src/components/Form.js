@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {View,Button,Text,TouchableOpacity,StyleSheet} from "react-native"
+import { View, Button, Text, TouchableOpacity, StyleSheet } from "react-native"
 import PropTypes from "prop-types";
-import { default as DefaultErrorList } from "./ErrorList";
+import DefaultErrorList from "./ErrorList";
 import {
   getDefaultFormState,
   retrieveSchema,
@@ -17,7 +17,7 @@ import validateFormData, { toErrorList } from "../validate";
 export default class Form extends Component {
   static defaultProps = {
     uiSchema: {},
-    styleSheet:{},
+    styleSheet: {},
     noValidate: false,
     liveValidate: false,
     disabled: false,
@@ -53,7 +53,7 @@ export default class Form extends Component {
     const state = this.state || {};
     const schema = "schema" in props ? props.schema : this.props.schema;
     const uiSchema = "uiSchema" in props ? props.uiSchema : this.props.uiSchema;
-    const styleSheet = "styleSheet" in props ? props.styleSheet :{}
+    const styleSheet = "styleSheet" in props ? props.styleSheet : {}
     const edit = typeof props.formData !== "undefined";
     const liveValidate = props.liveValidate || this.props.liveValidate;
     const mustValidate = edit && !props.noValidate && liveValidate;
@@ -64,9 +64,9 @@ export default class Form extends Component {
     const { errors, errorSchema } = mustValidate
       ? this.validate(formData, schema)
       : {
-          errors: state.errors || [],
-          errorSchema: state.errorSchema || {},
-        };
+        errors: state.errors || [],
+        errorSchema: state.errorSchema || {},
+      };
     const idSchema = toIdSchema(
       retrievedSchema,
       uiSchema["ui:rootFieldId"],
@@ -192,8 +192,8 @@ export default class Form extends Component {
 
   submit(formData) {
     if (this.formElement) {
-      console.log('this.formElement' , this.formElement)
-      console.log("formData" , formData)
+      console.log('this.formElement', this.formElement)
+      console.log("formData", formData)
       // this.formElement.dispatchEvent(new Event("submit", { cancelable: true }));
     }
   }
@@ -217,7 +217,7 @@ export default class Form extends Component {
       submitTitle
     } = this.props;
 
-    const { schema, uiSchema, styleSheet,formData, errorSchema, idSchema } = this.state;
+    const { schema, uiSchema, styleSheet, formData, errorSchema, idSchema } = this.state;
     const registry = this.getRegistry();
     const _SchemaField = registry.fields.SchemaField;
 
@@ -256,13 +256,13 @@ export default class Form extends Component {
         {children ? (
           children
         ) : (
-            // <Button  title="Submit Request" onPress={()=>{}}/>
-            <TouchableOpacity
+          // <Button  title="Submit Request" onPress={()=>{}}/>
+          <TouchableOpacity
             style={styles.buttonContainer}
             activeOpacity={0.85}
             onPress={(formData) => this.onSubmit(formData)}
           >
-              <Text style={[styles.buttonText,getStyle(styleSheet,'buttonText','Form')]}>{submitTitle}</Text>
+            <Text style={[styles.buttonText, getStyle(styleSheet, 'buttonText', 'Form')]}>{submitTitle}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -271,18 +271,18 @@ export default class Form extends Component {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer:{
+  buttonContainer: {
     borderRadius: 3,
     backgroundColor: '#6DA1B7',
     paddingVertical: 15,
     marginBottom: 20,
-    alignItems:'center',
-    justifyContent:"center",
-    marginTop:15
+    alignItems: 'center',
+    justifyContent: "center",
+    marginTop: 15
   },
-  buttonText:{
-    color:'white',
-    fontWeight:'500'
+  buttonText: {
+    color: 'white',
+    fontWeight: '500'
   }
 })
 

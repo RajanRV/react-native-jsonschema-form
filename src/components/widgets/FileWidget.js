@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { dataURItoBlob, shouldRender, setState } from "../../utils";
 import * as DocumentPicker from 'expo-document-picker';
 
@@ -25,16 +25,16 @@ function FilesInfo(props) {
   }
   return (
     // <ul className="file-info">
-      filesInfo.map((fileInfo, key) => {
-        const { name, size, mimeType } = fileInfo;
-        return (
-          name && (
-            <Text key={key}>
-              {name} ({mimeType}, {size} bytes)
-            </Text>
-          )
-        );
-      })
+    filesInfo.map((fileInfo, key) => {
+      const { name, size, mimeType } = fileInfo;
+      return (
+        name && (
+          <Text key={key}>
+            {name} ({mimeType}, {size} bytes)
+          </Text>
+        )
+      );
+    })
     // </ul>
   );
 }
@@ -92,7 +92,7 @@ class FileWidget extends Component {
     return (
       <View>
         <View>
-          <Pressable 
+          <Pressable
             ref={ref => this.inputRef = ref}
             onPress={this.onChange}
             disabled={readonly || disabled}
@@ -103,7 +103,7 @@ class FileWidget extends Component {
         </View>
         {FilesInfoComponent ? (
           <FilesInfoComponent filesInfo={filesInfo} />
-        ): (
+        ) : (
           <FilesInfo filesInfo={filesInfo} />
         )}
       </View>
