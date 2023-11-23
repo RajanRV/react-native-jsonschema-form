@@ -174,7 +174,6 @@ class DateWidget extends React.Component {
   }
 
   renderCalander() {
-    console.log(this.state, ' <=== I am state on each render...')
     this.props.schema
     return (
       <View style={[styles.container, this.widgetStyle('container')]} >
