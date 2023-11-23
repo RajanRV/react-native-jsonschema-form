@@ -24,7 +24,8 @@
     "react-native-check-box": "^2.1.7",
     "react-native-modal": "^13.0.1",
     "react-native-picker-select": "^9.0.0",
-    "react-native-vector-icons": "^10.0.2"
+    "react-native-vector-icons": "^10.0.2",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "babel-jest": "29.7.0",
