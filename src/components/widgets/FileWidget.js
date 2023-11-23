@@ -4,6 +4,7 @@ import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 
 import { dataURItoBlob, shouldRender, setState } from "../../utils";
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from "@expo/vector-icons";
+import RNFetchBlob from 'rn-fetch-blob';
 
 const CALC_WIDTH = (Dimensions.get('screen').width / 3) - 36
 
@@ -13,7 +14,12 @@ function addNameToDataURL(dataURL, name) {
 
 function processFile(file) {
   return new Promise((resolve, reject) => {
-    resolve(file)
+    RNFetchBlob.fs
+      .readFile(file.uri, 'base64')
+      .then((data) => {
+        resolve({ ...file, uri: `data:${file.mimeType};base64,${data}` })
+      })
+      .catch((err) => { });
   });
 }
 
