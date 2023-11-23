@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { shouldRender, parseDateString, toDateString, pad } from "../../utils";
+import { Text, TouchableOpacity } from "react-native";
 
 function rangeOptions(start, stop) {
   let options = [];
@@ -135,43 +136,34 @@ class AltDateWidget extends Component {
       options,
     } = this.props;
     return (
-      <ul className="list-inline">
+      <>
         {this.dateElementProps.map((elemProps, i) => (
-          <li key={i}>
-            <DateElement
-              rootId={id}
-              select={this.onChange}
-              {...elemProps}
-              disabled={disabled}
-              readonly={readonly}
-              registry={registry}
-              onBlur={onBlur}
-              autofocus={autofocus && i === 0}
-            />
-          </li>
+          <DateElement
+            rootId={id}
+            select={this.onChange}
+            {...elemProps}
+            disabled={disabled}
+            readonly={true}
+            registry={registry}
+            onBlur={onBlur}
+            autofocus={autofocus && i === 0}
+          />
         ))}
         {(options.hideNowButton !== "undefined"
           ? !options.hideNowButton
           : true) && (
-          <li>
-            <a href="#" className="btn btn-info btn-now" onClick={this.setNow}>
-              Now
-            </a>
-          </li>
-        )}
+            <TouchableOpacity onPress={this.setNow}>
+              <Text>Now</Text>
+            </TouchableOpacity>
+          )}
         {(options.hideClearButton !== "undefined"
           ? !options.hideClearButton
           : true) && (
-          <li>
-            <a
-              href="#"
-              className="btn btn-warning btn-clear"
-              onClick={this.clear}>
-              Clear
-            </a>
-          </li>
-        )}
-      </ul>
+            <TouchableOpacity onPress={this.clear}>
+              <Text>Clear</Text>
+            </TouchableOpacity>
+          )}
+      </>
     );
   }
 }

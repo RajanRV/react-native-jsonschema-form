@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DescriptionField from "../fields/DescriptionField.js";
 import { View, Text, StyleSheet } from 'react-native'
 import CheckBox from 'react-native-check-box'
-import {getStyle} from '../../utils'
+import { getStyle } from '../../utils'
 
 function CheckboxWidget(props) {
   const {
@@ -19,16 +19,16 @@ function CheckboxWidget(props) {
     styleSheet
   } = props;
   let checkValue = typeof value === "undefined" ? false : value
-  let widgetStyle=(styleName)=>getStyle(styleSheet,styleName,"CheckboxWidget")
+  let widgetStyle = (styleName) => getStyle(styleSheet, styleName, "CheckboxWidget")
   return (
     // className={`checkbox ${disabled || readonly ? "disabled" : ""}`}
-    <View style={[styles.container,widgetStyle('container')]}>
+    <View style={[styles.container, widgetStyle('container')]}>
       {schema.description && (
         <DescriptionField description={schema.description} />
       )}
       <CheckBox
         id={id}
-        unCheckedImage={<View style={{width:22,height:22,backgroundColor:'white'}}/>}
+        unCheckedImage={<View style={{ width: 22, height: 22, backgroundColor: 'white' }} />}
         type="checkbox"
         uncheckedCheckBoxColor={'#6DA1B7'}
         checkedCheckBoxColor={'#6DA1B7'}
@@ -39,7 +39,7 @@ function CheckboxWidget(props) {
         onClick={() => { onChange(!checkValue) }}
         isChecked={checkValue}
       />
-      <Text style={[styles.text,widgetStyle('text')]} >{label}</Text>
+      <Text style={[styles.text, widgetStyle('text')]} >{label}</Text>
     </View>
   );
 }
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     padding: 5,
     justifyContent: 'space-between',
   },
-  text:{
-    fontWeight:'100',
-    width:'85%', 
-    textAlign:'left'
+  text: {
+    fontWeight: '100',
+    width: '85%',
+    textAlign: 'left'
   },
-  
+
 })
 
 CheckboxWidget.defaultProps = {

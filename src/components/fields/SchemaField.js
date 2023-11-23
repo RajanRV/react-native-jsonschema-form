@@ -14,7 +14,7 @@ import {
   getSchemaType,
 } from "../../utils";
 import UnsupportedField from "./UnsupportedField";
-import {getStyle} from '../../utils'
+import { getStyle } from '../../utils'
 import _ from "lodash"
 
 
@@ -25,7 +25,7 @@ const COMPONENT_TYPES = {
   integer: "NumberField",
   number: "NumberField",
   object: "ObjectField",
-  string: "StringField",  
+  string: "StringField",
 };
 
 function getFieldComponent(schema, uiSchema, idSchema, fields) {
@@ -36,7 +36,7 @@ function getFieldComponent(schema, uiSchema, idSchema, fields) {
   if (typeof field === "string" && field in fields) {
     return fields[field];
   }
-  let Unknown=`Unknown field type ${schema.type}`
+  let Unknown = `Unknown field type ${schema.type}`
   const componentName = COMPONENT_TYPES[getSchemaType(schema)];
   return componentName in fields
     ? fields[componentName]
@@ -52,21 +52,21 @@ function getFieldComponent(schema, uiSchema, idSchema, fields) {
 }
 
 function Label(props) {
-  const { label, required, id,style } = props;
+  const { label, required, id, style } = props;
   if (!label) {
     // See #312: Ensure compatibility with old versions of React.
     return <View />;
   }
   return (
 
-    <Text style={ style || {
+    <Text style={style || {
       fontWeight: '400',
       fontSize: 16,
       marginTop: 10,
       marginBottom: 10,
       alignSelf: 'flex-start',
     }}>
-      {label+"  "}
+      {label + "  "}
       {required && REQUIRED_FIELD_SYMBOL}
     </Text>
   );
@@ -98,13 +98,13 @@ function Help(props) {
 }
 
 function ErrorList(props) {
-  const { errors = [],styleSheet } = props;
+  const { errors = [], styleSheet } = props;
   if (errors.length === 0) {
     return <View />;
   }
   return (
-    <View>      
-       <Text style={[{color:'red'},getStyle(styleSheet,"errorText","SchemaField")]}>{errors}</Text>
+    <View>
+      <Text style={[{ color: 'red' }, getStyle(styleSheet, "errorText", "SchemaField")]}>{errors}</Text>
     </View>
   );
 }
@@ -129,11 +129,11 @@ function DefaultTemplate(props) {
   }
   const additional = props.schema.hasOwnProperty(ADDITIONAL_PROPERTY_FLAG);
   const keyLabel = `${label} Key`;
-  let idWithKey=`${id}-key`
+  let idWithKey = `${id}-key`
   return (
     <View >
       {additional && (
-        <View  className="form-group">
+        <View className="form-group">
           <Label label={keyLabel} required={required} id={idWithKey} />
           <LabelInput
             label={label}
@@ -143,7 +143,7 @@ function DefaultTemplate(props) {
           />
         </View>
       )}
-      {displayLabel && <Label label={label} required={required} id={id} style={[getStyle(styleSheet,'text','SchemaField')]} />}
+      {displayLabel && <Label label={label} required={required} id={id} style={[getStyle(styleSheet, 'text', 'SchemaField')]} />}
       {displayLabel && description ? description : null}
       {children}
       {errors}
@@ -241,7 +241,7 @@ function SchemaFieldRender(props) {
   const { __errors, ...fieldErrorSchema } = errorSchema;
   // console.log('stylesheet shemafield'  ,styleSheet )
   // See #439: uiSchema: Don't pass consumed class names to child components
-  let  styleSheetmer=_.merge({},styleSheet,uiSchema["styleSheet"])
+  let styleSheetmer = _.merge({}, styleSheet, uiSchema["styleSheet"])
 
   const field = (
     <FieldComponent
@@ -291,7 +291,7 @@ function SchemaFieldRender(props) {
     rawDescription: description,
     help: <Help help={help} />,
     rawHelp: typeof help === "string" ? help : undefined,
-    errors: <ErrorList schema={schema}errors={errors} styleSheet={styleSheet} />,
+    errors: <ErrorList schema={schema} errors={errors} styleSheet={styleSheet} />,
     rawErrors: errors,
     id,
     label,

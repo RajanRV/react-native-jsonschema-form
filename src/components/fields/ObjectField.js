@@ -1,7 +1,7 @@
 import AddButton from "../AddButton";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {View,Text} from "react-native"
+import { View, Text } from "react-native"
 import {
   orderProperties,
   retrieveSchema,
@@ -27,23 +27,23 @@ function DefaultObjectFieldTemplate(props) {
     return true;
   };
 
-  const { TitleField, DescriptionField,styleSheet } = props;
+  const { TitleField, DescriptionField, styleSheet } = props;
 
   return (
 
     <View>
-      {(props.uiSchema["ui:title"] || props.title)? (
+      {(props.uiSchema["ui:title"] || props.title) ? (
         <TitleField
-          id={props.idSchema.$id+"__title"}
+          id={props.idSchema.$id + "__title"}
           title={props.title || props.uiSchema["ui:title"]}
           required={props.required}
           formContext={props.formContext}
           styleSheet={styleSheet}
         />
-      ):null}
+      ) : null}
       {props.description && (
         <DescriptionField
-          id={props.idSchema.$id+"__description"}
+          id={props.idSchema.$id + "__description"}
           description={props.description}
           formContext={props.formContext}
           styleSheet={styleSheet}
@@ -75,12 +75,11 @@ class ObjectField extends Component {
   state = {
     additionalProperties: {},
   };
-  componentWillUnmount()
-    {
-      this.props.onChange(undefined)
-    }
-    
-    isRequired(name) {
+  componentWillUnmount() {
+    this.props.onChange(undefined)
+  }
+
+  isRequired(name) {
     const schema = this.props.schema;
     return (
       Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
@@ -93,10 +92,10 @@ class ObjectField extends Component {
       this.props.onChange(
         newFormData,
         errorSchema &&
-          this.props.errorSchema && {
-            ...this.props.errorSchema,
-            [name]: errorSchema,
-          }
+        this.props.errorSchema && {
+          ...this.props.errorSchema,
+          [name]: errorSchema,
+        }
       );
     };
   };
@@ -120,10 +119,10 @@ class ObjectField extends Component {
       this.props.onChange(
         newFormData,
         errorSchema &&
-          this.props.errorSchema && {
-            ...this.props.errorSchema,
-            [value]: errorSchema,
-          }
+        this.props.errorSchema && {
+          ...this.props.errorSchema,
+          [value]: errorSchema,
+        }
       );
     };
   };
@@ -187,7 +186,7 @@ class ObjectField extends Component {
       return (
         <View>
           <Text>
-          {err.message}
+            {err.message}
           </Text>
         </View>
       );

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View,Text } from 'react-native'
+import { View, Text } from 'react-native'
 
 function UnsupportedField({ schema, idSchema, reason }) {
   return (
@@ -8,12 +8,12 @@ function UnsupportedField({ schema, idSchema, reason }) {
       <View>
         <Text>
           Unsupported field schema
-      </Text>
+        </Text>
       </View>
     </View>
   );
 }
-      // {schema && <pre>{JSON.stringify(schema, null, 2)}</pre>}
+// {schema && <pre>{JSON.stringify(schema, null, 2)}</pre>}
 
 // {idSchema && idSchema.$id && (
 //   <span>

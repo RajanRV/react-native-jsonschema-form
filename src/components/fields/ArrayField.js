@@ -3,7 +3,7 @@ import IconButton from "../IconButton";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import includes from "core-js/library/fn/array/includes";
-import {View } from 'react-native'
+import { View } from 'react-native'
 
 import UnsupportedField from "./UnsupportedField";
 import {
@@ -21,7 +21,7 @@ import {
 } from "../../utils";
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
-  console.log('ArrayFieldTitle' ,title )
+  console.log('ArrayFieldTitle', title)
   if (!title) {
     // See #312: Ensure compatibility with old versions of React.
     return <View />;
@@ -307,10 +307,10 @@ class ArrayField extends Component {
       onChange(
         newFormData,
         errorSchema &&
-          this.props.errorSchema && {
-            ...this.props.errorSchema,
-            [index]: errorSchema,
-          }
+        this.props.errorSchema && {
+          ...this.props.errorSchema,
+          [index]: errorSchema,
+        }
       );
     };
   };
@@ -558,8 +558,8 @@ class ArrayField extends Component {
         const itemUiSchema = additional
           ? uiSchema.additionalItems || {}
           : Array.isArray(uiSchema.items)
-          ? uiSchema.items[index]
-          : uiSchema.items || {};
+            ? uiSchema.items[index]
+            : uiSchema.items || {};
         const itemErrorSchema = errorSchema ? errorSchema[index] : undefined;
 
         return this.renderArrayFieldItem({
