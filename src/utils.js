@@ -34,7 +34,6 @@ const widgetMap = {
     "alt-datetime": "AltDateTimeWidget",
     color: "ColorWidget",
     file: "FileWidget",
-    UploadFilesWithAttachmentsWidget: "FileWidget"
   },
   number: {
     text: "TextWidget",
@@ -56,7 +55,6 @@ const widgetMap = {
     select: "SelectWidget",
     checkboxes: "CheckboxesWidget",
     files: "FileWidget",
-    UploadFilesWithAttachmentsWidget: "FileWidget"
   },
 };
 
@@ -347,7 +345,7 @@ export function isMultiSelect(schema, definitions = {}) {
 }
 
 export function isFilesArray(schema, uiSchema, definitions = {}) {
-  if (uiSchema["ui:widget"] === "files") {
+  if (uiSchema["ui:widget"] === "files" || uiSchema["ui:widget"] === "UploadFilesWithAttachmentsWidget") {
     return true;
   } else if (schema.items) {
     const itemsSchema = retrieveSchema(schema.items, definitions);

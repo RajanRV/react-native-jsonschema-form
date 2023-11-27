@@ -273,7 +273,7 @@ export default class Form extends Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     borderRadius: 3,
-    backgroundColor: '#6DA1B7',
+    backgroundColor: 'rgb(247, 144, 35)',
     paddingVertical: 15,
     marginBottom: 20,
     alignItems: 'center',

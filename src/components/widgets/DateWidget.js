@@ -46,12 +46,12 @@ class DateWidget extends React.Component {
       endDate: endDate.format('YYYY-MM-DD'),
       possibleDates: dates,
       theme: {
-        textSectionTitleColor: this.widgetStyle('textSectionTitleColor').color || '#6DA1B7',
-        selectedDayBackgroundColor: this.widgetStyle('selectedDayBackgroundColor').color || '#6DA1B7',
+        textSectionTitleColor: this.widgetStyle('textSectionTitleColor').color || 'rgb(247, 144, 35)',
+        selectedDayBackgroundColor: this.widgetStyle('selectedDayBackgroundColor').color || 'rgb(247, 144, 35)',
         selectedDayTextColor: this.widgetStyle('selectedDayTextColor').color || '#ffffff',
-        todayTextColor: this.widgetStyle('todayTextColor').color || '#6DA1B7',
-        arrowColor: this.widgetStyle('arrowColor').color || '#6DA1B7',
-        monthTextColor: this.widgetStyle('monthTextColor').color || '#6DA1B7',
+        todayTextColor: this.widgetStyle('todayTextColor').color || 'rgb(247, 144, 35)',
+        arrowColor: this.widgetStyle('arrowColor').color || 'rgb(247, 144, 35)',
+        monthTextColor: this.widgetStyle('monthTextColor').color || 'rgb(247, 144, 35)',
         textDayFontFamily: this.widgetStyle('dateFonts').fontFamily || null,
         textMonthFontFamily: this.widgetStyle('dateFonts').fontFamily || null,
         textDayHeaderFontFamily: this.widgetStyle('dateFonts').fontFamily || null,
@@ -153,7 +153,7 @@ class DateWidget extends React.Component {
     return (
       <Icon
         name={`arrow-${direction}`}
-        color={'#6DA1B7'}
+        color={'rgb(247, 144, 35)'}
         size={18}
       />
     )
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   button: {
-    backgroundColor: '#7eaabd',
+    backgroundColor: 'rgb(247, 144, 35)',
     height: 50,
     width: '90%',
     justifyContent: 'center',

@@ -14,12 +14,16 @@ function addNameToDataURL(dataURL, name) {
 
 function processFile(file) {
   return new Promise((resolve, reject) => {
-    RNFetchBlob.fs
-      .readFile(file.uri, 'base64')
-      .then((data) => {
-        resolve({ ...file, uri: `data:${file.mimeType};base64,${data}` })
-      })
-      .catch((err) => { });
+    if (typeof file.uri === 'string' && file.uri.startsWith(`data:${file.mimeType};base64,`)) {
+      return resolve(file)
+    } else {
+      return RNFetchBlob.fs
+        .readFile(file.uri, 'base64')
+        .then((data) => {
+          resolve({ ...file, uri: `data:${file.mimeType};base64,${data}` })
+        })
+        .catch((err) => reject(err));
+    }
   });
 }
 
