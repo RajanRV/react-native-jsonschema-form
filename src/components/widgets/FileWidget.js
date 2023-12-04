@@ -20,7 +20,7 @@ function processFile(file) {
       return RNFetchBlob.fs
         .readFile(file.uri, 'base64')
         .then((data) => {
-          resolve({ ...file, uri: `data:${file.mimeType};base64,${data}` })
+          resolve({ ...file, uri: `data:${file.mimeType};name=${file.name};base64,${data}` })
         })
         .catch((err) => reject(err));
     }
