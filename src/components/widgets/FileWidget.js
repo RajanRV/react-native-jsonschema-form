@@ -146,21 +146,23 @@ class FileWidget extends Component {
                 marginTop: 10,
                 "alignItems": "center",
                 "justifyContent": "center",
-                "paddingVertical": 12,
-                "paddingHorizontal": 32,
+                "paddingVertical": 8,
+                "paddingHorizontal": 18,
                 "borderRadius": 4,
                 "elevation": 3,
-                "backgroundColor": "rgb(247, 144, 35)"
+                "backgroundColor": "#79787A",
+                marginBottom: 10
               }), ...(buttonStyles || {})
             }}
           >
             <Text style={{
               ...({
-                "fontSize": 16,
+                "fontSize": 12,
                 "lineHeight": 21,
-                "fontWeight": "bold",
+                // "fontWeight": "bold",
                 "letterSpacing": 0.25,
-                "color": "white"
+                "color": "white",
+                flex: 1
               }), ...(buttonTextStyles || {})
             }}>{buttonText || "Browse"}</Text>
           </Pressable>
