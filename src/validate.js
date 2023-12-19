@@ -1,10 +1,15 @@
 import _ from "lodash";
 import Ajv from "ajv";
+import addFormats from 'ajv-formats'
+
 const ajv = new Ajv({
   errorDataPath: "property",
   allErrors: true,
   multipleOfPrecision: 8,
 });
+
+addFormats(ajv)
+
 // add custom formats
 ajv.addFormat(
   "data-url",
@@ -129,8 +134,8 @@ function transformAjvErrors(errors = []) {
   }
 
   return errors.map(e => {
-    const { dataPath, keyword, message, params } = e;
-    let property = `${dataPath}`;
+    const { instancePath, keyword, message, params } = e;
+    let property = `${instancePath || ''}`.replace('/', '');
 
     // put data in expected format
     return {
@@ -157,6 +162,7 @@ export default function validateFormData(
   try {
     ajv.validate(schema, formData);
   } catch (e) {
+    console.log(e, ' <=== error throwed by ajv....')
     // swallow errors thrown in ajv due to invalid schemas, these
     // still get displayed
   }

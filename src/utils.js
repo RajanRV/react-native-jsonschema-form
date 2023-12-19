@@ -242,6 +242,17 @@ export function asNumber(value) {
   if (value === "") {
     return undefined;
   }
+
+  if (typeof value === 'string') {
+    if (value.includes('.')) {
+      return parseFloat(value)
+    } else {
+      return parseInt(value)
+    }
+  } else {
+    return Number(value)
+  }
+  return value?.includes('.') ? parseFloat(value) : parseInt(value)
   if (/\.$/.test(value)) {
     // "3." can't really be considered a number even if it parses in js. The
     // user is most likely entering a float.

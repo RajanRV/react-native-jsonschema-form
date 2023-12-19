@@ -2,7 +2,7 @@
   "name": "rnjsf",
   "description": "A simple React component capable of building react native layout forms out of a JSON schema.",
   "main": "index.js",
-  "version": "0.0.20",
+  "version": "0.0.25",
   "author": "Roy aizenebrg <davario@gmail.com>",
   "contributors": [
     "omri Doron <zbish007@gmail.com>"
@@ -16,6 +16,7 @@
   "dependencies": {
     "@react-native-picker/picker": "^2.5.1",
     "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
     "expo-document-picker": "^11.7.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

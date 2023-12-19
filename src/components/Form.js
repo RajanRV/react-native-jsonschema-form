@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Button, Text, TouchableOpacity, StyleSheet } from "react-native"
+import { View, Button, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native"
 import PropTypes from "prop-types";
 import DefaultErrorList from "./ErrorList";
 import {
@@ -214,7 +214,8 @@ export default class Form extends Component {
       acceptcharset,
       noHtml5Validate,
       disabled,
-      submitTitle
+      submitTitle,
+      loading
     } = this.props;
 
     const { schema, uiSchema, styleSheet, formData, errorSchema, idSchema } = this.state;
@@ -237,7 +238,6 @@ export default class Form extends Component {
         ref={form => {
           this.formElement = form;
         }}>
-        {this.renderErrors()}
         <_SchemaField
           schema={schema}
           uiSchema={uiSchema}
@@ -253,6 +253,7 @@ export default class Form extends Component {
           safeRenderCompletion={safeRenderCompletion}
           disabled={disabled}
         />
+        {this.renderErrors()}
         {children ? (
           children
         ) : (
@@ -261,8 +262,11 @@ export default class Form extends Component {
             style={styles.buttonContainer}
             activeOpacity={0.85}
             onPress={(formData) => this.onSubmit(formData)}
+            disabled={loading}
           >
-            <Text style={[styles.buttonText, getStyle(styleSheet, 'buttonText', 'Form')]}>{submitTitle}</Text>
+            {loading ? <ActivityIndicator /> : (
+              <Text style={[styles.buttonText, getStyle(styleSheet, 'buttonText', 'Form')]}>{submitTitle}</Text>
+            )}
           </TouchableOpacity>
         )}
       </View>

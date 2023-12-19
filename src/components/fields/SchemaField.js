@@ -291,7 +291,7 @@ function SchemaFieldRender(props) {
     rawDescription: description,
     help: <Help help={help} />,
     rawHelp: typeof help === "string" ? help : undefined,
-    errors: <ErrorList schema={schema} errors={errors} styleSheet={styleSheet} />,
+    errors: <></>, //<ErrorList schema={schema} errors={errors} styleSheet={styleSheet} />,
     rawErrors: errors,
     id,
     label,
