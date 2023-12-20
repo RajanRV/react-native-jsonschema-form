@@ -26,6 +26,7 @@ function StringField(props) {
     onFocus,
     registry = getDefaultRegistry(),
     rawErrors,
+    isNumberField,
   } = props;
   const { title, format, placeHolder } = schema;
   const { widgets, formContext } = registry;
@@ -54,6 +55,7 @@ function StringField(props) {
       registry={registry}
       placeholder={placeHolder}
       rawErrors={rawErrors}
+      isNumberField={isNumberField}
     />
   );
 }

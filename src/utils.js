@@ -245,12 +245,12 @@ export function asNumber(value) {
 
   if (typeof value === 'string') {
     if (value.includes('.')) {
-      return parseFloat(value)
+      return parseFloat(value) || 0
     } else {
-      return parseInt(value)
+      return parseInt(value) || 0
     }
   } else {
-    return Number(value)
+    return parseFloat(value) || 0
   }
   return value?.includes('.') ? parseFloat(value) : parseInt(value)
   if (/\.$/.test(value)) {

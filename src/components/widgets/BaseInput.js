@@ -20,6 +20,7 @@ function BaseInput(props) {
     formContext,
     registry,
     rawErrors,
+    isNumberField,
     ...inputProps
   } = props;
 
@@ -38,6 +39,7 @@ function BaseInput(props) {
       onChangeText={_onChange}
       onBlur={onBlur && (event => onBlur(inputProps.id, event.target.value))}
       onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
+      keyboardType={isNumberField ? "number-pad" : "default"}
     />
   );
 }
