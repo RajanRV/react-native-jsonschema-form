@@ -200,33 +200,59 @@ class DateWidget extends React.Component {
     )
   }
 
+  styles = StyleSheet.create({
+    modal: {
+      margin: 0,
+      justifyContent: 'flex-end',
+    },
+  });
+
   render() {
     return (
       <React.Fragment>
-        <ReactModal
-          isVisible={this.state.calander}
-          animationIn="zoomIn"
-          animationOut="zoomOut"
-          onBackdropPress={() => { this.toggleCalendar() }}
-          onBackButtonPress={() => { this.toggleCalendar() }}>
-          {this.renderCalander()}
-        </ReactModal>
-        {this.renderWidgetButton()}
+         <View style={styles.calendarContainer}>
+            <ReactModal
+              isVisible={this.state.calander}
+              animationIn="zoomIn"
+              animationOut="zoomOut"
+              onBackdropPress={() => { this.toggleCalendar() }}
+              onBackButtonPress={() => { this.toggleCalendar() }}
+              style={styles.modalContainer}>
+              {this.renderCalander()}
+            </ReactModal>
+       
+          
+            {this.renderWidgetButton()}
+        </View>
+          
       </React.Fragment>
     );
   }
 }
-
-
-
-
 const styles = StyleSheet.create({
+  calendarContainer: {
+    marginTop: 5,
+    marginBottom: 10,
+    flex: 1,
+    justifyContent: 'flex-end',
+    borderWidth: 1,
+    borderColor: '#6DA1B7',  // Set the border color to match your design
+    borderRadius: 8,  // Optional: Add border radius for rounded corners
+
+  },
+  modalContainer: {
+    margin: 0,
+  },
+  buttonContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
   container: {
     backgroundColor: 'white',
     padding: 10,
   },
   content: {
-    padding: 14,
+    padding: 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

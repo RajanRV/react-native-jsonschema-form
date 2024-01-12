@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TextInput, StyleSheet, I18nManager } from 'react-native'
+import { View, TextInput, StyleSheet, Text, I18nManager } from 'react-native'
 
 function BaseInput(props) {
   // Note: since React 15.2.0 we can't forward unknown element attributes, so we
@@ -29,6 +29,8 @@ function BaseInput(props) {
     return props.onChange(value === "" ? options.emptyValue : value);
   };
   return (
+    <View>
+   
     <TextInput
       style={[styles.input, I18nManager.isRTL ? { textAlign: 'right' } : {}]}
       readOnly={readonly}
@@ -41,15 +43,23 @@ function BaseInput(props) {
       onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
       keyboardType={isNumberField ? "number-pad" : "default"}
     />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   input: {
-    padding: 10,
-    flexDirection: 'row',
-    backgroundColor: "rgba(255,255,255,0.9)",
-  }
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginTop: 5,
+    fontSize: 16,
+    borderColor: '#6DA1B7', // Border color
+    backgroundColor: 'white', // Background color
+    color: '#333', // Text color
+    marginBottom: 10,
+  },
 })
 
 BaseInput.defaultProps = {

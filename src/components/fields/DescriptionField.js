@@ -23,8 +23,8 @@ function DescriptionField(props) {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 40,
+    marginBottom: 40,
   },
   text: {
   }

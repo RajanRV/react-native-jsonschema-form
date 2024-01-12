@@ -87,12 +87,7 @@ class SelectWidget extends React.Component {
     let widgetStyle = (styleName) => getStyle(styleSheet, styleName, "SelectWidget")
     return (
         <RNPickerSelect
-          id={id}
-          placeholder={{
-            label: emptyValue,
-            value: undefined,
-            color: '#9EA0A4',
-          }}
+          id={id}      
           disabled={disabled || readonly}
           items={enumOptions}
           required={required}
@@ -124,11 +119,14 @@ class SelectWidget extends React.Component {
 
 const styles = StyleSheet.create({
   content: {
-    padding:14,
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 5,
+    padding: 10,
     justifyContent: 'space-between',
-    backgroundColor: "rgba(255,255,255,0.9)",
+    borderWidth: 1,
+    borderColor: '#6DA1B7', // Adjust the border color to match the text input box
+    borderRadius: 8,
   },
   dropdownStyle:{
     height:130

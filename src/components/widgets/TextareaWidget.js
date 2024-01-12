@@ -44,16 +44,20 @@ function TextareaWidget(props) {
 }
 const styles = StyleSheet.create({
   textAreaContainer: {
-    borderColor: 'transparent',
     borderWidth: 1,
+    borderColor: '#6DA1B7',  // Set the border color to match your design
+    borderRadius: 8,  // Optional: Add border radius for rounded corners
+    marginTop: 5,
     padding: 5,
-    backgroundColor: "white",
+    justifyContent: 'space-between',
   },
   textArea: {
-    textAlignVertical: "top",
-    minHeight: 70,
-    maxHeight: 100,
-  }
+    textAlignVertical: 'top',  // For Android
+    padding: 10,
+    height: 120,  // Adjust the height as per your design
+    fontSize: 16,
+    color: '#000',  // Set the text color to match your design
+  },
 })
 
 TextareaWidget.defaultProps = {

@@ -7,22 +7,25 @@ function TitleField(props) {
   const { id, title, required,styleSheet } = props;
   let widgetStyle=(styleName)=>getStyle(styleSheet,styleName,"TitleField")
   return (
-    <View id={id} style={[styles.container,widgetStyle('container')]}>
-    <Text style={[styles.text,widgetStyle('text')]}>{title}{required && " " +  REQUIRED_FIELD_SYMBOL}</Text>
-    </View>
+    <View style={[styles.container, widgetStyle('container')]}>
+    <Text style={[styles.text, widgetStyle('text')]}>{title}{required && " " + REQUIRED_FIELD_SYMBOL}</Text>
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flexDirection:'row',
-    marginTop:10,
-    marginBottom:10,
-    alignItems: 'center',
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',  // Align text and other elements vertically
+    marginTop: 30,
+    padding: 5,
+    justifyContent: 'space-between',
   },
-  text:{
-    fontSize:20
-  }
+  text: {
+    fontWeight: '500',  // Adjust font weight as needed
+    fontSize: 45,  // Adjust font size as needed
+    color: '#333',  // Set the text color to match your design
+  },
 })
 
 export default TitleField;
