@@ -24,7 +24,7 @@ function CheckboxWidget(props) {
   let widgetStyle = (styleName) => getStyle(styleSheet, styleName, "CheckboxWidget")
   return (
     // className={`checkbox ${disabled || readonly ? "disabled" : ""}`}
-    <View style={[styles.container, widgetStyle('container')]}>
+    <View style={[styles.container, widgetStyle('container'), [{ marginTop: 10 }]]}>
       {schema.description && (
         <DescriptionField description={schema.description} />
       )}
@@ -43,7 +43,7 @@ function CheckboxWidget(props) {
         type="checkbox"
         uncheckedCheckBoxColor={'#6DA1B7'}
         checkedCheckBoxColor={'#6DA1B7'}
- 
+
         required={required}
         disabled={disabled || readonly}
         autoFocus={autofocus}
