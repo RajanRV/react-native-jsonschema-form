@@ -467,17 +467,75 @@ export function stubExistingAdditionalProperties(
   return schema;
 }
 
-export function resolveSchema(schema, definitions = {}, formData = {}) {
+function resolveSchema(schema, definitions, formData) {
   if (schema.hasOwnProperty("$ref")) {
     return resolveReference(schema, definitions, formData);
   } else if (schema.hasOwnProperty("dependencies")) {
     const resolvedSchema = resolveDependencies(schema, definitions, formData);
     return retrieveSchema(resolvedSchema, definitions, formData);
+  } else if (schema.hasOwnProperty("allOf")) {
+    return resolveAllOf(schema, definitions, formData);
+  } else if (schema.hasOwnProperty("if") && schema.hasOwnProperty("then")) {
+    return resolveIfThenElse(schema, definitions, formData);
   } else {
-    // No $ref or dependencies attribute found, returning the original schema.
+    // No $ref, dependencies, allOf, if, then, or else attribute found, returning the original schema.
     return schema;
   }
 }
+
+function resolveIfThenElse(schema, definitions, formData) {
+  const { if: ifClause, then: thenClause, else: elseClause, ...rest } = schema;
+
+  if (evaluateCondition(ifClause, formData)) {
+    return mergeSchemas(rest, resolveSchema(thenClause, definitions, formData));
+  } else if (elseClause) {
+    return mergeSchemas(rest, resolveSchema(elseClause, definitions, formData));
+  } else {
+    return rest;
+  }
+}
+
+
+function evaluateCondition(condition, formData) {
+  if (!condition) {
+    // If no condition is provided, default to true (not read-only)
+    return true;
+  }
+
+  const { properties } = condition;
+
+  if (properties) {
+    // Check if formData properties match the provided constants
+    for (const property in properties) {
+      if (formData[property] === properties[property].const) {
+        return true; // If any property does not match, it's not read-only
+      }
+    }
+
+    return false; // All properties match, it's read-only
+  }
+
+  // Default to true if condition is not handled
+  return true;
+}
+
+
+
+function resolveAllOf(schema, definitions, formData) {
+  if (!schema.allOf || !Array.isArray(schema.allOf)) {
+    return schema;
+  }
+
+  let resolvedSchema = { ...schema };
+
+  for (const subschema of schema.allOf) {
+    const resolvedSubschema = resolveSchema(subschema, definitions, formData);
+    resolvedSchema = mergeSchemas(resolvedSchema, resolvedSubschema);
+  }
+  return resolvedSchema;
+}
+
+
 
 function resolveReference(schema, definitions, formData) {
   // Retrieve the referenced schema definition.
