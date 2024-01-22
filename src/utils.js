@@ -280,6 +280,8 @@ export function orderProperties(properties, order) {
     return properties;
   }
 
+  order = order.filter(ordr => properties.includes(ordr) || ordr == '*')
+
   const arrayToHash = arr =>
     arr.reduce((prev, curr) => {
       prev[curr] = true;
