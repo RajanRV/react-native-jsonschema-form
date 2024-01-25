@@ -28,7 +28,7 @@ export default class Form extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.getStateFromProps(props);
+    this.state = this.getStateFromProps({ ...props, formData: undefined });
     if (
       this.props.onChange &&
       !deepEquals(this.state.formData, this.props.formData)
