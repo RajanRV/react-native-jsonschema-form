@@ -358,7 +358,7 @@ export function isMultiSelect(schema, definitions = {}) {
 }
 
 export function isFilesArray(schema, uiSchema, definitions = {}) {
-  if (uiSchema["ui:widget"] === "files" || uiSchema["ui:widget"] === "UploadFilesWithAttachmentsWidget") {
+  if (uiSchema["ui:widget"] === "files" || uiSchema["ui:widget"] === "UploadFilesWithAttachmentsWidget" || uiSchema["ui:widget"] === "QRCodeScanner") {
     return true;
   } else if (schema.items) {
     const itemsSchema = retrieveSchema(schema.items, definitions);
