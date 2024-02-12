@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, TextInput, StyleSheet, Text, I18nManager } from 'react-native'
-
+import { View, StyleSheet, Text, I18nManager } from 'react-native'
+import { TextInput } from 'react-native-paper';
 function BaseInput(props) {
   // Note: since React 15.2.0 we can't forward unknown element attributes, so we
   // exclude the "options" and "schema" ones here.
@@ -28,37 +28,55 @@ function BaseInput(props) {
   const _onChange = (value) => {
     return props.onChange(value === "" ? options.emptyValue : value);
   };
+  if (inputProps.label) {
+    inputProps.label = inputProps.required ? `${inputProps.label} *` : inputProps.label
+  }
   return (
     <View>
-   
-    <TextInput
-      style={[styles.input, I18nManager.isRTL ? { textAlign: 'right' } : {}]}
-      readOnly={readonly}
-      disabled={disabled}
-      autoFocus={autofocus}
-      value={value == null ? "" : value}
-      {...inputProps}
-      onChangeText={_onChange}
-      onBlur={onBlur && (event => onBlur(inputProps.id, event.target.value))}
-      onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
-      keyboardType={isNumberField ? "number-pad" : "default"}
-    />
+
+      <TextInput
+        style={[styles.input, I18nManager.isRTL ? { textAlign: 'right' } : {}]}
+        readOnly={readonly}
+        disabled={disabled}
+        autoFocus={autofocus}
+        value={value == null ? "" : value}
+        {...inputProps}
+        onChangeText={_onChange}
+        onBlur={onBlur && (event => onBlur(inputProps.id, event.target.value))}
+        onFocus={onFocus && (event => onFocus(inputProps.id, event.target.value))}
+        keyboardType={isNumberField ? "number-pad" : "default"}
+
+        outlineStyle={{ borderWidth: 1 }}
+        mode='outlined'
+        outlineColor={"#BCBCBC"}
+        activeOutlineColor={"#2B9348"}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
-    borderWidth: 1,
+    // height: 40,
+    // borderWidth: 1,
+    // borderRadius: 8,
+    // paddingHorizontal: 10,
+    // marginTop: 5,
+    // fontSize: 16,
+    // borderColor: '#6DA1B7', // Border color
+    // backgroundColor: 'white', // Background color
+    // color: '#333', // Text color
+    // marginBottom: 10,
+
+
+
+    width: '100%',
+    backgroundColor: 'transperent',
+    borderColor: '#BCBCBC',
     borderRadius: 8,
-    paddingHorizontal: 10,
-    marginTop: 5,
-    fontSize: 16,
-    borderColor: '#6DA1B7', // Border color
-    backgroundColor: 'white', // Background color
-    color: '#333', // Text color
-    marginBottom: 10,
+    padding: 0,
+    backgroundColor: 'white',
+
   },
 })
 

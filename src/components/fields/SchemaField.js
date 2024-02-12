@@ -143,7 +143,8 @@ function DefaultTemplate(props) {
           />
         </View>
       )}
-      {displayLabel && <Label label={label} required={required} id={id} style={[getStyle(styleSheet, 'text', 'SchemaField')]} />}
+      {/* TODO: removed label as we are using react native paper now */}
+      {displayLabel && <Label label={label} required={required} id={id} style={[{ marginTop: 10 }, getStyle(styleSheet, 'text', 'SchemaField')]} />}
       {displayLabel && description ? description : null}
       {children}
       {errors}
@@ -216,7 +217,7 @@ function SchemaFieldRender(props) {
   }
 
   const uiOptions = getUiOptions(uiSchema);
-  let { label: displayLabel = true } = uiOptions;
+  let { label: displayLabel = false } = uiOptions;
   if (schema.type === "array") {
     displayLabel =
       isMultiSelect(schema, definitions) ||
@@ -231,11 +232,11 @@ function SchemaFieldRender(props) {
   if (uiSchema["ui:field"]) {
     displayLabel = false;
   }
-  if (schema.type === "string" && schema.displayLabel === false) {
-    displayLabel = false;
+  if (schema.type === "string" && schema.displayLabel === true) {
+    displayLabel = true;
   }
-  if (schema.type === "object" && schema.displayLabel === false) {
-    displayLabel = false;
+  if (schema.type === "object" && schema.displayLabel === true) {
+    displayLabel = true;
   }
 
   const { __errors, ...fieldErrorSchema } = errorSchema;

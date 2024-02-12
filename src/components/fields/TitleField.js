@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',  // Align text and other elements vertically
-    marginTop: 25,
+    marginTop: 10,
     // padding: 5,
     justifyContent: 'space-between',
   },
