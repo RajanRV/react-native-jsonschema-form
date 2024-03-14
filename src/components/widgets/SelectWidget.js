@@ -81,40 +81,42 @@ class SelectWidget extends React.Component {
       if (element.value == value)
         label = element.label
     });
+
+    let widgetLabel = this.props.label
     // const valueverified=_.includes(optionsFull,value)?value:emptyValue
     // onChange(processValue(schema, valueverified))
     let widgetStyle = (styleName) => getStyle(styleSheet, styleName, "SelectWidget")
     return (
       <View style={{ marginTop: 10 }}>
-      <Text>{label}</Text>
-      <RNPickerSelect
-        id={id}
-        disabled={disabled || readonly}
-        items={enumOptions}
-        required={required}
-        multiple={multiple}
-        autoFocus={autofocus}
-        onValueChange={Platform.OS === 'ios' ? (value) => { this.setState({ pickerSelect: value }) } : value => { onChange(processValue(schema, value)) }}
-        onDonePress={() => { onChange(processValue(schema, this.state.pickerSelect)) }}
-        style={{
-          chevronUp: {
-            transform: [{ translateY: 17 }, { rotate: '45deg' }],
-          },
-          chevronDown: {
-            transform: [{ translateY: 8 }, { rotate: '-135deg' }],
-          },
+        <Text>{widgetLabel}</Text>
+        <RNPickerSelect
+          id={id}
+          disabled={disabled || readonly}
+          items={enumOptions}
+          required={required}
+          multiple={multiple}
+          autoFocus={autofocus}
+          onValueChange={Platform.OS === 'ios' ? (value) => { this.setState({ pickerSelect: value }) } : value => { onChange(processValue(schema, value)) }}
+          onDonePress={() => { onChange(processValue(schema, this.state.pickerSelect)) }}
+          style={{
+            chevronUp: {
+              transform: [{ translateY: 17 }, { rotate: '45deg' }],
+            },
+            chevronDown: {
+              transform: [{ translateY: 8 }, { rotate: '-135deg' }],
+            },
 
-        }}
-      >
-        <View style={[styles.content, widgetStyle('content')]}>
-          {label ?
-            <Text style={widgetStyle('text')}>{label}</Text>
-            : <Text style={widgetStyle('placeHolderText')}>{emptyValue}</Text>}
-          <Image
-            source={require('../../images/dark.png')}
-          />
-        </View>
-      </RNPickerSelect>
+          }}
+        >
+          <View style={[styles.content, widgetStyle('content')]}>
+            {label ?
+              <Text style={widgetStyle('text')}>{label}</Text>
+              : <Text style={widgetStyle('placeHolderText')}>{emptyValue}</Text>}
+            <Image
+              source={require('../../images/dark.png')}
+            />
+          </View>
+        </RNPickerSelect>
       </View>
     );
   }
