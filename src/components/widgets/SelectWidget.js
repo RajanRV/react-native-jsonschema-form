@@ -85,6 +85,8 @@ class SelectWidget extends React.Component {
     // onChange(processValue(schema, valueverified))
     let widgetStyle = (styleName) => getStyle(styleSheet, styleName, "SelectWidget")
     return (
+      <View style={{ marginTop: 10 }}>
+      <Text>{label}</Text>
       <RNPickerSelect
         id={id}
         disabled={disabled || readonly}
@@ -113,6 +115,7 @@ class SelectWidget extends React.Component {
           />
         </View>
       </RNPickerSelect>
+      </View>
     );
   }
 }

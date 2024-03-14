@@ -164,7 +164,7 @@ class DateWidget extends React.Component {
       <TouchableOpacity style={[styles.content, this.widgetStyle('content')]} onPress={() => this.toggleCalendar()}>
         {this.state.dateSelected ?
           <Text style={[styles.dropText, this.widgetStyle('dropText')]} >{this.state.dateSelected}</Text> :
-          <Text style={[styles.dropText, this.widgetStyle('placeholderdropText')]} >{this.props.schema.placeHolder}</Text>
+          <Text style={[styles.dropText, this.widgetStyle('placeholderdropText')]} >{this.props.schema.placeHolder || 'Select Date'}</Text>
         }
         <Image
           source={require('../../images/dark.png')}
@@ -208,23 +208,27 @@ class DateWidget extends React.Component {
   });
 
   render() {
+    const {
+      label
+    } = this.props;
     return (
       <React.Fragment>
-         <View style={styles.calendarContainer}>
-            <ReactModal
-              isVisible={this.state.calander}
-              animationIn="zoomIn"
-              animationOut="zoomOut"
-              onBackdropPress={() => { this.toggleCalendar() }}
-              onBackButtonPress={() => { this.toggleCalendar() }}
-              style={styles.modalContainer}>
-              {this.renderCalander()}
-            </ReactModal>
-       
-          
-            {this.renderWidgetButton()}
+        <Text style={{ marginTop: 5 }}>{label}</Text>
+        <View style={styles.calendarContainer}>
+          <ReactModal
+            isVisible={this.state.calander}
+            animationIn="zoomIn"
+            animationOut="zoomOut"
+            onBackdropPress={() => { this.toggleCalendar() }}
+            onBackButtonPress={() => { this.toggleCalendar() }}
+            style={styles.modalContainer}>
+            {this.renderCalander()}
+          </ReactModal>
+
+
+          {this.renderWidgetButton()}
         </View>
-          
+
       </React.Fragment>
     );
   }
@@ -232,13 +236,14 @@ class DateWidget extends React.Component {
 const styles = StyleSheet.create({
   calendarContainer: {
     marginTop: 5,
-    marginBottom: 10,
     flex: 1,
     justifyContent: 'flex-end',
     borderWidth: 1,
-    borderColor: '#6DA1B7',  // Set the border color to match your design
-    borderRadius: 8,  // Optional: Add border radius for rounded corners
-
+    borderColor: '#BCBCBC',  // Set the border color to match your design
+    borderRadius: 4,  // Optional: Add border radius for rounded corners
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    backgroundColor: 'white'
   },
   modalContainer: {
     margin: 0,

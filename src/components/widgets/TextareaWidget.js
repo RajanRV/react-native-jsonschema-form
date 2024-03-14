@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextInput, StyleSheet, View, I18nManager, Platform } from 'react-native'
 import { getStyle } from '../../utils'
+import { Text } from "react-native";
 
 function TextareaWidget(props) {
   const {
@@ -16,12 +17,15 @@ function TextareaWidget(props) {
     onChange,
     onBlur,
     onFocus,
-    styleSheet
+    styleSheet,
+    label
   } = props;
   const _onChange = (text) => {
     return onChange(text || options.emptyValue);
   };
   return (
+    <>
+      <Text style={{ marginTop: 5 }}>{label}</Text>
     <View style={[styles.textAreaContainer, getStyle(styleSheet, 'textAreaContainer', 'TextareaWidget'), Platform.OS === 'ios' ? { alignItems: "flex-start" } : {}]} >
       <TextInput
         id={id}
@@ -34,19 +38,20 @@ function TextareaWidget(props) {
         onChangeText={(text) => _onChange(text)}
         numberOfLines={10}
         multiline={true}
-        placeholder={placeholder || "Type something..."}
+        placeholder={placeholder || label || "Type something..."}
         placeholderTextColor='lightgray'
         style={[styles.textArea, getStyle(styleSheet, 'textArea', 'TextareaWidget')]}
         underlineColorAndroid="transparent"
       />
     </View>
+    </>
   );
 }
 const styles = StyleSheet.create({
   textAreaContainer: {
     borderWidth: 1,
-    borderColor: '#6DA1B7',  // Set the border color to match your design
-    borderRadius: 8,  // Optional: Add border radius for rounded corners
+    borderColor: '#BCBCBC',  // Set the border color to match your design
+    borderRadius: 4,  // Optional: Add border radius for rounded corners
     marginTop: 5,
     padding: 5,
     justifyContent: 'space-between',
