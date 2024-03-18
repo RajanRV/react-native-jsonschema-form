@@ -72,10 +72,20 @@ class SelectWidget extends React.Component {
       placeholder,
       styleSheet,
     } = this.props;
-    const { enumOptions, enumDisabled } = options;
+    var { enumOptions, enumDisabled } = options;
     const emptyValue = multiple ? [] : placeholder ? placeholder : "";
     let optionsFull = []
     let label = undefined
+
+    let values = {}
+    enumOptions = enumOptions.filter((enumOp) => {
+      if(values[enumOp.value]) {
+        return false
+      }
+      values[enumOp.value] = true
+      return true
+    })
+
     enumOptions.forEach(element => {
       optionsFull.push(element.label)
       if (element.value == value)
