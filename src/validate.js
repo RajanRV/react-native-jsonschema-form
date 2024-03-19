@@ -182,7 +182,7 @@ export default function validateFormData(
   transformErrors
 ) {
   // TODO: enable this when done with testing
-  // const ajv = getAjv()
+  const ajv = getAjv()
   try {
     ajv.validate(schema, formData);
   } catch (e) {
