@@ -98,7 +98,7 @@ class SelectWidget extends React.Component {
     let widgetStyle = (styleName) => getStyle(styleSheet, styleName, "SelectWidget")
     return (
       <View style={{ marginTop: 10 }}>
-        <Text>{widgetLabel}</Text>
+        <Text>{widgetLabel} {required ? '*': ''}</Text>
         <RNPickerSelect
           id={id}
           disabled={disabled || readonly}

@@ -209,11 +209,12 @@ class DateWidget extends React.Component {
 
   render() {
     const {
-      label
+      label,
+      required
     } = this.props;
     return (
       <React.Fragment>
-        <Text style={{ marginTop: 5 }}>{label}</Text>
+        <Text style={{ marginTop: 5 }}>{label} {required ? '*' : ''}</Text>
         <View style={styles.calendarContainer}>
           <ReactModal
             isVisible={this.state.calander}
